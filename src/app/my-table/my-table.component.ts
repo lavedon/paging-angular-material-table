@@ -1,44 +1,44 @@
-import { Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, OnDestroy } from '@angular/core';
 import { DataService } from '../data.service';
 import { Data } from 'i-data-model';
-import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { tap } from 'rxjs';
-
+import { catchError, map, Observable, of, switchMap, Subject, EMPTY } from 'rxjs';
 
 @Component({
-  selector: 'app-my-table',
+  selector: 'my-table',
   templateUrl: './my-table.component.html',
   styleUrls: ['./my-table.component.css']
 })
-export class MyTableComponent {
-  dataSource: MatTableDataSource<Data>;
+export class MyTableComponent implements AfterViewInit, OnDestroy {
+  displayedColumns: string[] = ['Id', 'Name', 'Occupation', 'Age', 'Email'];
+  dataSource$: Observable<Data[]> = EMPTY;
+  @ViewChild(MatPaginator) paginator?: MatPaginator;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  private destroy$ = new Subject<void>();
 
   constructor(private dataService: DataService) { }
 
-  ngOnInit() {
-    this.dataService.getData(1).subscribe(data => {
-    this.dataSource = new MatTableDataSource<Data>();
-    this.loadPage();
-    });
+  ngAfterViewInit(): void {
+    if (this.paginator) {
+    this.dataSource$ = this.paginator.page.pipe(
+      switchMap((pageIndex) => this.loadData(pageIndex.pageIndex))
+    );
+    this.loadData(0).subscribe(data => this.dataSource$ = of(data));
+    }
   }
 
-  ngAfterViewInit() {
-    this.paginator.page
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  private loadData(pageIndex: number): Observable<Data[]> {
+    return this.dataService.getData(pageIndex)
       .pipe(
-        tap(() => this.loadPage())
-      )
-      .subscribe();
+        map((data) => {
+          return data;
+        }),
+        catchError(() => of([])) // In case of error, return an empty array
+      );
   }
-
-  private loadPage() {
-    this.dataService.fetchData(this.paginator.pageIndex, this.paginator.pageSize)
-      .subscribe(data => {
-        this.dataSource.data = data;
-      });
-  }
-
-
 }

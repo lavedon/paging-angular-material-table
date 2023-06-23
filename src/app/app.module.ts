@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MyTableComponent } from './my-table/my-table.component';
 import { MatTableModule } from '@angular/material/table';
 import { HttpClientModule } from '@angular/common/http';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator'
 
 
 @NgModule({
@@ -19,8 +19,7 @@ import { MatPaginator } from '@angular/material/paginator';
     BrowserAnimationsModule,
     MatTableModule,
     HttpClientModule,
-    MatPaginator,
-
+    MatPaginatorModule
   ],
   providers: [],
   bootstrap: [AppComponent]
