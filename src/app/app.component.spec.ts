@@ -1,12 +1,18 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { MyTableComponent } from './my-table/my-table.component';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [
-        AppComponent
+        AppComponent,
+        MyTableComponent
       ],
+      imports: [
+        HttpClientModule
+      ]
     }).compileComponents();
   });
 
@@ -22,10 +28,4 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('pagingFrontEndDemo');
   });
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('pagingFrontEndDemo app is running!');
-  });
 });
