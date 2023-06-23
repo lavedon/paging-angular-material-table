@@ -56,4 +56,20 @@ describe('DataService', () => {
     req.flush(mockData);
     httpMock.verify();
   });
+
+  it('should handle errors', () => {
+    const mockError = new ErrorEvent('Network error');
+
+    service.getData(0).subscribe({
+      next: data => fail('should have failed with the network error'),
+      error: error => expect(error.error).toBe(mockError),
+      complete: () => console.log('completed')
+    });
+
+      const req = httpMock.expectOne('http://localhost:5000/api/data/0');
+
+      expect(req.request.method).toBe('GET');
+
+      req.error(mockError);
+  });
 });
