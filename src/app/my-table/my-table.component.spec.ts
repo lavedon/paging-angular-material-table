@@ -50,7 +50,9 @@ describe('MyTableComponent', () => {
 
   it('should populate table with data', fakeAsync(() => {
     // Arrange
-    const mockData = [{ Id: 1, Name: 'John', Occupation: 'Engineer', Age: 30, Email: 'johntheengineer@testemail.com' }];
+    const mockData = [{ Id: 1, Name: 'John', Occupation: 'Engineer', Age: 30, Email: 'johntheengineer@testemail.com' },
+  { Id: 1, Name: 'Daniel', Occupation: 'Mortician', Age: 45, Email: 'danTheDeathGuy@testgmail.com' }];
+
     spyOn(dataService, 'getData').and.returnValue(of(mockData));
 
     // Act
@@ -60,7 +62,9 @@ describe('MyTableComponent', () => {
     fixture.detectChanges(); // trigger data binding again after async activities
 
     // Assert
-    const tableRows = fixture.debugElement.nativeElement.querySelectorAll('tr');
+    debugger;
+    /* Ready to set up subscription in MatTable */
+    const tableRows = fixture.debugElement.nativeElement.querySelectorAll('mat-header-row');
     expect(tableRows.length).toBeGreaterThan(1); // There should be more than one row: the header row + data rows
 
     const firstRowColumns = tableRows[1].querySelectorAll('td');
