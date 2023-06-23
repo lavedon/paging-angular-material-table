@@ -38,12 +38,12 @@ describe('MyTableComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have a table', fakeAsync(() => {
-    tick();
-    debugger;
+  it('should have a table', async() => {
+    await fixture.whenStable();
+    fixture.detectChanges();
     const table = fixture.debugElement.nativeElement.querySelector('table');
     expect(table).toBeTruthy();
-  }));
+  });
 
 
   xit('should populate table with data', fakeAsync(() => {
