@@ -2,6 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { MyTableComponent } from './my-table/my-table.component';
 import { HttpClientModule } from '@angular/common/http';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -11,7 +13,9 @@ describe('AppComponent', () => {
         MyTableComponent
       ],
       imports: [
-        HttpClientModule
+        HttpClientModule,
+        MatTableModule,
+        MatPaginatorModule
       ]
     }).compileComponents();
   });
