@@ -38,10 +38,12 @@ describe('MyTableComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have a table', async() => {
+  fit('should have a table', async() => {
     await fixture.whenStable();
     fixture.detectChanges();
+    debugger;
     const table = fixture.debugElement.nativeElement.querySelector('table');
+    console.log('The table should be now created.');
     expect(table).toBeTruthy();
   });
 
