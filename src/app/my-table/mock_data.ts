@@ -1,3 +1,5 @@
+import { Data } from '../types/i-data-model';
+
 export const MOCK_DATA: Data[] = [
   { Id: 1, Name: 'John Doe', Occupation: 'Developer', Age: 27, Email: 'john.doe@example.com' },
   { Id: 2, Name: 'Jane Smith', Occupation: 'Designer', Age: 32, Email: 'jane.smith@example.com' },
