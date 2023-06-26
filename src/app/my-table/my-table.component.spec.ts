@@ -38,16 +38,20 @@ describe('MyTableComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have a table', fakeAsync(() => {
-    tick();
+  it('should have a table', async() => {
+    await fixture.whenStable();
+    fixture.detectChanges();
+    debugger;
     const table = fixture.debugElement.nativeElement.querySelector('mat-table');
+    console.log('The table should be now created.');
     expect(table).toBeTruthy();
-  }));
+  });
 
-
-  fit('should populate table with data', fakeAsync(() => {
+  it('should populate table with data', fakeAsync(() => {
     // Arrange
-    const mockData = [{ Id: 1, Name: 'John', Occupation: 'Engineer', Age: 30, Email: 'johntheengineer@testemail.com' }];
+    const mockData = [{ Id: 1, Name: 'John', Occupation: 'Engineer', Age: 30, Email: 'johntheengineer@testemail.com' },
+  { Id: 1, Name: 'Daniel', Occupation: 'Mortician', Age: 45, Email: 'danTheDeathGuy@testgmail.com' }];
+
     spyOn(dataService, 'getData').and.returnValue(of(mockData));
 
     // Act
@@ -57,7 +61,9 @@ describe('MyTableComponent', () => {
     fixture.detectChanges(); // trigger data binding again after async activities
 
     // Assert
-    const tableRows = fixture.debugElement.nativeElement.querySelectorAll('tr');
+    debugger;
+    /* Ready to set up subscription in MatTable */
+    const tableRows = fixture.debugElement.nativeElement.querySelectorAll('mat-header-row');
     expect(tableRows.length).toBeGreaterThan(1); // There should be more than one row: the header row + data rows
 
     const firstRowColumns = tableRows[1].querySelectorAll('td');
@@ -78,5 +84,4 @@ describe('MyTableComponent', () => {
     expect(tableHeaders[3].textContent.trim()).toContain('Age');
     expect(tableHeaders[4].textContent.trim()).toContain('Email');
     }));
-
 });
