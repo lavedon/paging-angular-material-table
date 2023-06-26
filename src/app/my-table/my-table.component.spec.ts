@@ -40,13 +40,12 @@ describe('MyTableComponent', () => {
 
   it('should have a table', fakeAsync(() => {
     tick();
-    debugger;
-    const table = fixture.debugElement.nativeElement.querySelector('table');
+    const table = fixture.debugElement.nativeElement.querySelector('mat-table');
     expect(table).toBeTruthy();
   }));
 
 
-  xit('should populate table with data', fakeAsync(() => {
+  fit('should populate table with data', fakeAsync(() => {
     // Arrange
     const mockData = [{ Id: 1, Name: 'John', Occupation: 'Engineer', Age: 30, Email: 'johntheengineer@testemail.com' }];
     spyOn(dataService, 'getData').and.returnValue(of(mockData));
@@ -71,13 +70,13 @@ describe('MyTableComponent', () => {
 
   it('should have column headers named, Id, Name, Occupation, Age, Email', fakeAsync(() => {
     tick();
-    const tableHeaders = fixture.debugElement.nativeElement.querySelectorAll('th');
+    const tableHeaders = fixture.debugElement.nativeElement.querySelectorAll('mat-header-cell');
     debugger;
-    expect(tableHeaders[0].textContent).toContain('Id');
-    expect(tableHeaders[1].textContent).toContain('Name');
-    expect(tableHeaders[2].textContent).toContain('Occupation');
-    expect(tableHeaders[3].textContent).toContain('Age');
-    expect(tableHeaders[4].textContent).toContain('Email');
+    expect(tableHeaders[0].textContent.trim()).toContain('Id');
+    expect(tableHeaders[1].textContent.trim()).toContain('Name');
+    expect(tableHeaders[2].textContent.trim()).toContain('Occupation');
+    expect(tableHeaders[3].textContent.trim()).toContain('Age');
+    expect(tableHeaders[4].textContent.trim()).toContain('Email');
     }));
 
 });

@@ -12,6 +12,9 @@ export class DataService {
   constructor(private http: HttpClient) { }
 
   getData(page: number): Observable<Data[]> {
-    return this.http.get<Data[]>(this.apiUrl + page);
+    console.assert(page !== undefined || page !== null, 'no page parameter was passed');
+    debugger;
+    console.log('Going to call this API', this.apiUrl + page.toString());
+    return this.http.get<Data[]>(this.apiUrl + page.toString());
   }
 }
