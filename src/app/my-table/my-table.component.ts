@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ViewChild, OnDestroy, OnInit } from '@angular
 import { DataService } from '../data.service';
 import { Data } from 'i-data-model';
 import { MatPaginator } from '@angular/material/paginator';
-import { catchError, Observable, of, switchMap } from 'rxjs';
+import { catchError, Observable, of, switchMap, startWith } from 'rxjs';
 
 @Component({
   selector: 'my-table',
@@ -19,6 +19,7 @@ export class MyTableComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     this.paginator.pageIndex = 0;
     this.dataSource$ = this.paginator.page.pipe(
+      startWith({}),
       switchMap(() => {
         return this.dataService.getData(this.paginator.pageIndex + 1);
       }),
@@ -27,7 +28,8 @@ export class MyTableComponent implements AfterViewInit, OnDestroy {
       })
     );
 
-    this.paginator.page.next({pageIndex: this.paginator.pageIndex, pageSize: this.paginator.pageSize, length: this.paginator.length});
+    console.count('About to call next on paginator');
+    this.paginator.page.next({});
   }
 
   ngOnDestroy() {
