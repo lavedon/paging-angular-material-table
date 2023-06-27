@@ -4,29 +4,29 @@
 </mat-form-field>
 
 <mat-table [dataSource]="dataSource" matSort>
-  <ng-container matColumnDef="Id">
+  <ng-container matColumnDef="id">
     <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.Id}} </mat-cell>
+    <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
   </ng-container>
 
-  <ng-container matColumnDef="Name">
+  <ng-container matColumnDef="name">
     <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.Name}} </mat-cell>
+    <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
   </ng-container>
 
-  <ng-container matColumnDef="Occupation">
+  <ng-container matColumnDef="occupation">
     <mat-header-cell *matHeaderCellDef mat-sort-header> Occupation </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.Occupation}} </mat-cell>
+    <mat-cell *matCellDef="let element"> {{element.occupation}} </mat-cell>
   </ng-container>
 
-  <ng-container matColumnDef="Age">
+  <ng-container matColumnDef="age">
     <mat-header-cell *matHeaderCellDef mat-sort-header> Age </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.Age}} </mat-cell>
+    <mat-cell *matCellDef="let element"> {{element.age}} </mat-cell>
   </ng-container>
 
-  <ng-container matColumnDef="Email">
+  <ng-container matColumnDef="email">
     <mat-header-cell *matHeaderCellDef mat-sort-header> Email </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.Email}} </mat-cell>
+    <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -34,4 +34,4 @@
 
 </mat-table>
 
-<mat-paginator #paginator="matPaginator" [pageSize]="500" [pageSizeOptions]="[50, 100, 200, 500]"></mat-paginator>
+<mat-paginator #paginator="matPaginator" [pageSize]="50" [pageSizeOptions]="[50, 100, 200, 500]"></mat-paginator>

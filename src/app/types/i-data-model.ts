@@ -1,7 +1,7 @@
 export interface Data {
-  Id: number;
-  Name: string;
-  Occupation: string;
-  Age: number;
-  Email: string;
+  id: number;
+  name: string;
+  occupation: string;
+  age: number;
+  email: string;
 }

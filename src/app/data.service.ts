@@ -7,22 +7,19 @@ import { Data } from '../app/types/i-data-model';
   providedIn: 'root'
 })
 export class DataService {
-  private apiUrl = 'http://localhost:5000/api/data/';
+  private apiUrl = 'http://localhost:5000/api/data';
 
   constructor(private http: HttpClient) { }
 
-  getData(page: number): Observable<Data[]> {
-    console.count('getData in service was called.');
-    console.assert(page !== undefined || page !== null, 'no page parameter was passed');
-    console.log('Going to call this API', this.apiUrl + page.toString());
-    return this.http.get<Data[]>(this.apiUrl + page.toString());
+  getData(pageIndex: number, pageSize: number): Observable<Data[]> {
+    return this.http.get<Data[]>(`${this.apiUrl}/${pageIndex}/${pageSize}`);
   }
 
   getDataByFilter(filter: string): Observable<Data[]> {
     console.count('getDataByFilter in service was called.');
     console.assert(filter !== undefined || filter !== null, 'no filter parameter was passed');
     console.log('Going to call this API', this.apiUrl + filter);
-    return this.http.get<Data[]>(this.apiUrl + "search/" + filter);
+    return this.http.get<Data[]>(this.apiUrl + "/search/" + filter);
   }
 
 }

@@ -1,10 +1,8 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { Data } from '../types/i-data-model';
-import { MOCK_DATA } from 'src/app/my-table/mock_data';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { filter } from 'rxjs';
 import { DataService } from '../data.service';
 
 @Component({
@@ -12,28 +10,40 @@ import { DataService } from '../data.service';
   templateUrl: './my-table.component.html',
   styleUrls: ['./my-table.component.css']
 })
-export class MyTableComponent {
-  displayedColumns: string[] = ['Id', 'Name', 'Occupation', 'Age', 'Email']
-  records: Data[] = MOCK_DATA;
-  dataSource = new MatTableDataSource(this.records);
+export class MyTableComponent implements AfterViewInit {
+  displayedColumns: string[] = ['id', 'name', 'occupation', 'age', 'email']
+  dataSource = new MatTableDataSource<Data>();
   @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort!: MatSort;
 
   constructor(private dataService: DataService) {
   }
 
-  ngOnInit() {
-    this.dataSource = new MatTableDataSource(this.records);
-    this.dataSource.paginator = this.paginator;
-  }
-
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+
+    this.paginator.page.subscribe(() =>
+      this.loadPage()
+    );
+
+    this.loadPage();  
+  }
+
+  loadPage() {
+    this.dataService.getData(this.paginator.pageIndex, this.paginator.pageSize).subscribe(response => 
+      {
+        console.log(response);
+        
+        this.dataSource.data = response;
+      })
   }
 
   applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.dataService.getDataByFilter(filterValue).subscribe(response => 
+      {
+        console.log(response);
+        this.dataSource.data = response;
+      })
   }
-
 }
