@@ -1,5 +1,6 @@
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { Data } from '../types/i-data-model';
+import { DataResponse } from '../types/i-data-response';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -34,16 +35,19 @@ export class MyTableComponent implements AfterViewInit {
     this.dataService.getData(this.paginator.pageIndex, this.paginator.pageSize).subscribe(response => 
       {
         console.log(response);
-        
-        this.dataSource.data = response;
+        this.dataSource.data = response.data;
+        if (this.dataSource.paginator) {
+          this.dataSource.paginator.length = response.totalCount;
+        }
       })
   }
 
   applyFilter(filterValue: string) {
-    this.dataService.getDataByFilter(filterValue).subscribe(response => 
+    this.dataService.getDataByFilter(filterValue, this.paginator.pageIndex, this.paginator.pageSize).subscribe(response => 
       {
-        console.log(response);
-        this.dataSource.data = response;
+        this.dataSource.data = response.data;
+        if (this.dataSource.paginator)
+          this.dataSource.paginator.length = response.totalCount;
       })
   }
 }
