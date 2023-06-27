@@ -12,12 +12,19 @@ export class DataService {
 
   constructor(private http: HttpClient) { }
 
-  getData(pageIndex: number, pageSize: number): Observable<DataResponse> {
-    return this.http.get<DataResponse>(`${this.apiUrl}/${pageIndex}/${pageSize}`);
+  getData(pageIndex: number, pageSize: number, sortColumn?: string, sortDirection: 'asc' | 'desc' = 'asc'): Observable<DataResponse> {
+    let requestUrl = `${this.apiUrl}/${pageIndex}/${pageSize}`;
+    if(sortColumn) {
+      requestUrl += `?sortColumn=${sortColumn}&sortDirection=${sortDirection}`;
+    }
+    return this.http.get<DataResponse>(requestUrl);
   }
 
-  getDataByFilter(filter: string, pageIndex: number, pageSize: number): Observable<DataResponse> {
-    return this.http.get<DataResponse>(`${this.apiUrl}/search/${filter}/${pageIndex}/${pageSize}`);
+  getDataByFilter(filter: string, pageIndex: number, pageSize: number, sortColumn?: string, sortDirection: 'asc' | 'desc' = 'asc'): Observable<DataResponse> {
+    let requestUrl = `${this.apiUrl}/search/${pageIndex}/${pageSize}?searchTerm=${filter}`;
+    if(sortColumn) {
+      requestUrl += `&sortColumn=${sortColumn}&sortDirection=${sortDirection}`;
+    }
+    return this.http.get<DataResponse>(requestUrl);
   }
-
 }

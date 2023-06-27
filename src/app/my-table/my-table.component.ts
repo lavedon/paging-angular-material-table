@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { DataService } from '../data.service';
+import { Sort } from '@angular/material/sort';
 
 @Component({
   selector: 'my-table',
@@ -16,6 +17,8 @@ export class MyTableComponent implements AfterViewInit {
   dataSource = new MatTableDataSource<Data>();
   @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort!: MatSort;
+
+  private currentFilter: string = '';
 
   constructor(private dataService: DataService) {
   }
@@ -36,18 +39,48 @@ export class MyTableComponent implements AfterViewInit {
       {
         console.log(response);
         this.dataSource.data = response.data;
+        setTimeout(() => {
         if (this.dataSource.paginator) {
           this.dataSource.paginator.length = response.totalCount;
         }
+      });
       })
   }
 
   applyFilter(filterValue: string) {
+    this.currentFilter = filterValue;
     this.dataService.getDataByFilter(filterValue, this.paginator.pageIndex, this.paginator.pageSize).subscribe(response => 
       {
         this.dataSource.data = response.data;
+        setTimeout(() => {
         if (this.dataSource.paginator)
           this.dataSource.paginator.length = response.totalCount;
       })
+    });
   }
+
+  sortData(sort: Sort) {
+  const sortDirection = sort.direction || 'asc';
+  if (this.currentFilter) {
+    this.dataService.getDataByFilter(this.currentFilter, this.paginator.pageIndex, this.paginator.pageSize, sort.active, sortDirection).subscribe(response => {
+      this.dataSource.data = response.data;
+      setTimeout(() => { 
+        if (this.dataSource.paginator) {
+          this.dataSource.paginator.length = response.totalCount;
+        }
+      });
+    });
+  } else {
+    this.dataService.getData(this.paginator.pageIndex, this.paginator.pageSize, sort.active, sortDirection).subscribe(response => {
+      this.dataSource.data = response.data;
+      setTimeout(() => { 
+        if (this.dataSource.paginator) {
+          this.dataSource.paginator.length = response.totalCount;
+        }
+      });
+    });
+  }
+}
+  
+ 
 }
