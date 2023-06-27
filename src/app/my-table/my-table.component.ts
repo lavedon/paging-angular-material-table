@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { filter } from 'rxjs';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'my-table',
@@ -18,6 +19,8 @@ export class MyTableComponent {
   @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort!: MatSort;
 
+  constructor(private dataService: DataService) {
+  }
 
   ngOnInit() {
     this.dataSource = new MatTableDataSource(this.records);
@@ -32,4 +35,5 @@ export class MyTableComponent {
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+
 }
