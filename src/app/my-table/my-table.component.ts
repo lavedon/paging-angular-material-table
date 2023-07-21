@@ -35,52 +35,44 @@ export class MyTableComponent implements AfterViewInit {
   }
 
   loadPage() {
-    this.dataService.getData(this.paginator.pageIndex, this.paginator.pageSize).subscribe(response => 
-      {
+    this.dataService.getData(this.paginator.pageIndex, this.paginator.pageSize).subscribe(response => {
         console.log(response);
         this.dataSource.data = response.data;
-        setTimeout(() => {
         if (this.dataSource.paginator) {
-          this.dataSource.paginator.length = response.totalCount;
+            this.dataSource.paginator.length = response.totalCount;
         }
-      });
-      })
-  }
+    });
+}
 
-  applyFilter(filterValue: string) {
+
+    applyFilter(filterValue: string) {
     this.currentFilter = filterValue;
     this.dataService.getDataByFilter(filterValue, this.paginator.pageIndex, this.paginator.pageSize).subscribe(response => 
-      {
+    {
         this.dataSource.data = response.data;
-        setTimeout(() => {
         if (this.dataSource.paginator)
           this.dataSource.paginator.length = response.totalCount;
-      })
     });
-  }
+}
 
-  sortData(sort: Sort) {
+sortData(sort: Sort) {
   const sortDirection = sort.direction || 'asc';
   if (this.currentFilter) {
     this.dataService.getDataByFilter(this.currentFilter, this.paginator.pageIndex, this.paginator.pageSize, sort.active, sortDirection).subscribe(response => {
       this.dataSource.data = response.data;
-      setTimeout(() => { 
-        if (this.dataSource.paginator) {
+      if (this.dataSource.paginator) {
           this.dataSource.paginator.length = response.totalCount;
-        }
-      });
+      }
     });
   } else {
     this.dataService.getData(this.paginator.pageIndex, this.paginator.pageSize, sort.active, sortDirection).subscribe(response => {
       this.dataSource.data = response.data;
-      setTimeout(() => { 
-        if (this.dataSource.paginator) {
+      if (this.dataSource.paginator) {
           this.dataSource.paginator.length = response.totalCount;
-        }
-      });
+      }
     });
   }
 }
-  
+
  
 }
